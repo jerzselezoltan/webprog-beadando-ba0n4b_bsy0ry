@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS CRUD - Rádióadók</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>JavaScript CRUD Modul</h1>
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <div class="collapse navbar-collapse justify-content-center">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Vissza a főoldalra</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div id="app-container">
+            <div class="card p-4 border-0 shadow-sm text-start">
+                <h2 class="mb-4" id="formTitle">Új Rádióadó Felvétele</h2>
+                
+                <div class="row g-2 mb-4">
+                    <input type="hidden" id="editIndex" value="-1">
+                    <div class="col-md-2">
+                        <label class="small fw-bold">Frekvencia (MHz)</label>
+                        <input type="text" id="inputFrekvencia" class="form-control" placeholder="87,6">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="small fw-bold">Teljesítmény (kW)</label>
+                        <input type="text" id="inputTeljesitmeny" class="form-control" placeholder="7,6">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="small fw-bold">Csatorna neve</label>
+                        <input type="text" id="inputCsatorna" class="form-control" placeholder="Neo FM">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="small fw-bold">Adóhely</label>
+                        <input type="text" id="inputAdohely" class="form-control" placeholder="Győr">
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button id="saveBtn" class="btn btn-warning w-100 fw-bold" onclick="handleSave()">Hozzáadás</button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Frekvencia</th>
+                                <th>Teljesítmény</th>
+                                <th>Csatorna</th>
+                                <th>Adóhely</th>
+                                <th>Műveletek</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stationTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Készítők: Horváth Olivér (BSY0RY), Jerzsele Zoltán (BA0N4B)</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
