@@ -59,6 +59,9 @@ main {
   box-shadow: 0 15px 35px rgba(0,0,0,0.1);
   margin-top: 20px;
   margin-bottom: 20px;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 footer {
