@@ -6,11 +6,21 @@ import './style.css';
 function App() {
   const [menu, setMenu] = useState("rock");
 
+
+
   return (
     <main>
       <header>
-        <h1>Web programozás - 1 Előadás Házi feladat</h1>
+        <h1>SPA Modul</h1>
       </header>
+
+<nav className="navbar navbar-expand-lg mt-2">
+  <div className="container d-flex justify-content-center">
+    <a className="nav-custom-btn" href="index.html">
+      Vissza a főoldalra
+    </a>
+  </div>
+</nav>
 
       <div id="app-container">
         <div className="radio-display">

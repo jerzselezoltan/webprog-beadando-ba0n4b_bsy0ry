@@ -121,3 +121,35 @@ footer {
   70% { box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
   100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
 }
+
+nav {
+  text-align: center; 
+  width: 100%;
+  font-weight: 600;
+}
+
+.navbar {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(5px);
+  margin-bottom: 20px;
+}
+
+
+.nav-custom-btn {
+  display: inline-block;
+  padding: 8px 25px;
+  background: transparent !important; 
+ 
+  border-radius: 50px;
+  color: #2d3436 !important;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.nav-custom-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important; 
+  color: #ff8c00 !important;
+  transform: translateY(-1px);
+}
