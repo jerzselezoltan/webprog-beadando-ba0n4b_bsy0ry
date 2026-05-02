@@ -4,7 +4,6 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type");
 
-
 $host = "localhost";
 $dbname = "radiok";
 $user = "radiok";
@@ -12,7 +11,6 @@ $pass = "0jelszo1";
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
-    $pdo->exec("set names utf8");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo json_encode(["status" => "Adatbázis hiba: " . $e->getMessage()]);
@@ -35,14 +33,14 @@ switch ($method) {
         break;
 
     case 'PUT':
-        $stmt = $pdo->prepare("UPDATE radiok.telepules SET nev = ?, megye = ? WHERE id = ?");
-        $stmt->execute([$input['nev'], $input['megye'], $input['id']]);
+        $stmt = $pdo->prepare("UPDATE telepules SET nev = ?, megye = ? WHERE nev = ?");
+        $stmt->execute([$input['nev'], $input['megye'], $input['oldNev']]);
         echo json_encode(["status" => "Település frissítve"]);
         break;
 
     case 'DELETE':
-        $stmt = $pdo->prepare("DELETE FROM telepules WHERE id = ?");
-        $stmt->execute([$input['id']]);
+        $stmt = $pdo->prepare("DELETE FROM telepules WHERE nev = ?");
+        $stmt->execute([$input['nev']]);
         echo json_encode(["status" => "Település törölve"]);
         break;
 

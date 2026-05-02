@@ -1,81 +1,73 @@
 const apiUrl = 'api.php';
 
-
-window.onload = loadTelepulesek;
-
-const form = document.getElementById('telepulesForm');
-const messageDiv = document.getElementById('message');
-
 async function loadTelepulesek() {
-    try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-        
-        let tableHTML = "";
-        data.readData.forEach(t => {
-            tableHTML += `
-                <tr>
-                    <td>${t.nev}</td>
-                    <td>${t.megye}</td>
-                    <td>
-                        <button class="edit" onclick='fillForm(${JSON.stringify(t)})'>Szerkesztés</button>
-                        <button class="delete" onclick='deleteTelepules(${t.id})'>Törlés</button>
-                    </td>
-                </tr>`;
-        });
-        document.getElementById('telepulesTable').innerHTML = tableHTML;
-    } catch (error) {
-        messageDiv.innerText = "Hiba a betöltéskor!";
-    }
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    
+    let tableHTML = "";
+    data.readData.forEach(t => {
+        tableHTML += `
+            <tr>
+                <td>${t.nev}</td>
+                <td>${t.megye}</td>
+                <td>
+                    <button class="nav-link" style="border:none; background:none; display:inline;" 
+                        onclick='fillForm("${t.nev}", "${t.megye}")'>Szerkesztés</button>
+                    <button class="nav-link" style="border:none; background:none; display:inline; color:red !important;" 
+                        onclick='deleteTelepules("${t.nev}")'>Törlés</button>
+                </td>
+            </tr>`;
+    });
+    document.getElementById('telepulesTable').innerHTML = tableHTML;
 }
 
-form.addEventListener('submit', async (e) => {
+document.getElementById('telepulesForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    
-    const id = document.getElementById('id').value;
-    const nev = document.getElementById('nev').value;
+    const oldName = document.getElementById('id').value; // Az "id" hidden mezőben tároljuk a szerkesztendő nevet
+    const newName = document.getElementById('nev').value;
     const megye = document.getElementById('megye').value;
-    
-    const payload = { id, nev, megye };
-    const method = id ? 'PUT' : 'POST';
 
-    try {
-        const response = await fetch(apiUrl, {
-            method: method,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        const result = await response.json();
-        
-        messageDiv.innerText = result.status;
-        form.reset();
-        document.getElementById('id').value = "";
-        loadTelepulesek();
-    } catch (error) {
-        messageDiv.innerText = "Hiba a mentés során!";
-    }
+    const payload = {
+        oldNev: oldName,
+        nev: newName,
+        megye: megye
+    };
+
+    const method = (oldName && oldName !== "") ? 'PUT' : 'POST';
+
+    const response = await fetch(apiUrl, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
+    const result = await response.json();
+    alert(result.status);
+    
+    document.getElementById('id').value = ""; 
+    document.getElementById('form-title').innerText = "Új település rögzítése";
+    e.target.reset();
+    loadTelepulesek();
 });
 
-function fillForm(t) {
-    document.getElementById('id').value = t.id;
-    document.getElementById('nev').value = t.nev;
-    document.getElementById('megye').value = t.megye;
-    messageDiv.innerText = "Szerkesztés mód";
+async function deleteTelepules(nev) {
+    if (!confirm(`Biztosan törölni akarod: ${nev}?`)) return;
+
+    const response = await fetch(apiUrl, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nev: nev }) 
+    });
+    const result = await response.json();
+    alert(result.status);
+    loadTelepulesek();
 }
 
-async function deleteTelepules(id) {
-    if (!confirm("Biztosan törlöd?")) return;
-
-    try {
-        const response = await fetch(apiUrl, {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id })
-        });
-        const result = await response.json();
-        messageDiv.innerText = result.status;
-        loadTelepulesek();
-    } catch (error) {
-        messageDiv.innerText = "Hiba a törléskor!";
-    }
+function fillForm(nev, megye) {
+    document.getElementById('id').value = nev;
+    document.getElementById('nev').value = nev;
+    document.getElementById('megye').value = megye;
+    document.getElementById('form-title').innerText = "Település szerkesztése";
+    window.scrollTo(0,0);
 }
+
+window.onload = loadTelepulesek;
