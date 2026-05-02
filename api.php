@@ -5,13 +5,14 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type");
 
 
-$host = "mysql.nethely.hu";
+$host = "localhost";
 $dbname = "radiok";
 $user = "radiok";
 $pass = "0jelszo1";
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
+    $pdo->exec("set names utf8");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo json_encode(["status" => "Adatbázis hiba: " . $e->getMessage()]);
